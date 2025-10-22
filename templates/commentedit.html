@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+     <h1>Исходное сообщение</h1>
+     <h2>{{news.title}}</h2>
+    <div>
+        {{news.content}}
+    </div>
+     {% if news.photo %}
+    <div>
+        <img src=/static/img/{{news.photo}} alt="изображение не загрузилось((" height=200px width=200px>
+    </div>
+     {% endif %}
+    <div>
+        Теги: {% for i in news.tag_id %}{{i}}{% endfor %}
+    </div>
+    <div>
+        Автор - {{news.users.name}}  Дата написания - {{news.created_date}}
+    </div>
+ <form method="post" enctype="multipart/form-data">
+     <h1>Ваш комментарий</h1>
+ <p>
+        {{ form.content.label }}<br>
+        {{ form.content(class="form-control") }}<br>
+        {% for error in form.content.errors %}
+            <p content="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+
+         {{ form.hidden_tag() }}
+        {{ form.photo.label }}<br>
+        {{ form.photo(class="form-control") }}<br>
+    <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+    {{message}}
+</form>
+{% endblock %}

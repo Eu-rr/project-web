@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+     <h1>Профиль пользователя</h1>
+<p>Имя - {{user.name}} </p>
+<p>Дата регистрации - {{user.created_date}}</p>
+O себе:<br>
+{{user.about}}<br>
+{% if current_user.is_authenticated and current_user == user %}
+Почта - {{user.email}}
+<a href=/change/{{user.name}} class="btn btn-primary">Изменить профиль</a>
+<a href=/logout class="btn btn-danger">Выйти</a>
+{% endif %}
+{% endblock %}

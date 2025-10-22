@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+     <h1>Изменение профиля пользователя</h1>
+ <form method="post" enctype="multipart/form-data">
+{{ form.hidden_tag() }}
+    {{ form.csrf_token }}
+     {{message}}
+    <p>
+        {{ form.name.label }}<br>
+        {{ form.name(class="form-control") }}<br></p>
+    <p>
+        {{ form.email.label }}<br>
+        {{ form.email(class="form-control") }}<br></p>
+     <p>
+        {{ form.about.label }}<br>
+         {{ form.about(class="form-control") }}<br></p>
+     <p>
+        {{ form.new_password.label }}<br>
+         {{ form.new_password(class="form-control") }}<br></p>
+    <p>
+        {{ form.old_password.label }}<br>
+        {{ form.old_password(class="form-control") }}<br></p>
+     <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+     {{message}}
+</form>
+{% endblock %}

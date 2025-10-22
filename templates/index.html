@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="" method='GET'>
+    <div>
+        <input type="text" class="form-control" placeholder="Search" name="q" value="{{request.args.get('q', '')}}">
+    </div>
+    <button type="submit" class="btn btn-secondary">Найти</button>>
+</form>
+<h1>Лента новостей</h1>
+    {% if current_user.is_authenticated %}
+        <a href="news" class="btn btn-primary">Добавить новость</a>
+    {% endif %}
+{% for item in news%}
+<div class="col-md8 border rounded" id="news">
+    <h2>{{item.title}}</h2>
+    <div class="z">
+        {{item.content}}
+    </div>
+    {% if item.photo %}
+    <div class="x">
+        <img src=static/img/{{item.photo}} alt="изображение не загрузилось((" height=200px width=200px>
+    </div>
+    {% endif %}
+    <div class="tag">
+        Теги: {% for i in item.tag_id %}{{i}}{% endfor %}
+    </div>
+    <div class="credit">
+        Автор - <a href=/profile/{{item.users.name}}>{{item.users.name}}</a>, Дата написания - {{item.created_date}}
+    </div>
+    {% if current_user.is_authenticated and current_user == item.users %}
+    <div class="edit">
+        <a href="/news/{{ item.id }}" class="btn btn-primary">Изменить</a>
+    </div>
+    <div class="dell">
+        <a href="/news_delete/{{ item.id }}" class="btn btn-danger">Удалить</a>
+    </div>
+    {% endif %}
+    {% if current_user.is_authenticated %}
+    <div class="com">
+    <a href="/comment/{{ item.id }}" class="btn btn-secondary">Комментировать</a>
+    </div>
+    {% endif %}
+    <h5>Комментарии</h5>
+</div>
+<div id="comment">
+    {% for i in comments %}
+    {% if i.news_id == item.id %}
+     <div class="col-md6 border rounded">
+    <div>
+    {{i.content}}
+    </div>
+    {% if i.photo %}
+    <div>
+    <img src=static/img/{{i.photo}} alt="изображение не загрузилось((" height=200px width=200px>
+    </div>
+    {% endif %}
+    <div>
+        Автор - <a href=/profile/{{i.user_id}}>{{i.user_id}}</a>, Дата написания - {{i.created_date}}
+    </div>
+     {% if current_user.is_authenticated and current_user == i.users %}
+    <div class="cedit">
+        <a href="/commentedit/{{ i.id }}" class="btn btn-primary">Изменить коммент</a>
+    </div>
+    <div class="dell">
+        <a href="/comment_delete/{{ i.id }}" class="btn btn-danger">Удалить</a>
+    </div>
+    {% endif %}
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+
+{% endfor %}
+{% endblock %}
